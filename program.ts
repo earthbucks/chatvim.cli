@@ -1,11 +1,11 @@
 import { Command } from "commander";
 import { handleBuffer } from "./commands/buffer.js";
+import { handleChat } from "./commands/chat.js";
 import { handleColor } from "./commands/color.js";
 import { handleForget } from "./commands/forget.js";
 import { handleFormat } from "./commands/format.js";
 import { handleModels } from "./commands/models.js";
 import { handleProviders } from "./commands/providers.js";
-import { handleRemember } from "./commands/remember.js";
 
 const program = new Command();
 
@@ -27,8 +27,8 @@ program
   .action(handleForget);
 
 program
-  .command("remember")
-  .description("Use a markdown file to log the chat history")
+  .command("chat")
+  .description("Chat with a markdown file to maintain context")
   .argument(
     "[input]",
     "Prompt text to send to the LLM (optional; can be piped)",
@@ -38,7 +38,7 @@ program
     "Markdown file to use as context (optional)",
     "chat.md",
   )
-  .action(handleRemember);
+  .action(handleChat);
 
 program
   .command("models")

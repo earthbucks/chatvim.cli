@@ -4,7 +4,7 @@ import { withTimeout } from "../util/async.js";
 import { parseChatLogFromText } from "../util/parse.js";
 import { readStdin } from "../util/stdin.js";
 
-export async function handleRemember(
+export async function handleChat(
   input: string | undefined,
   opts: { file: string } = { file: "codey.md" },
 ) {
