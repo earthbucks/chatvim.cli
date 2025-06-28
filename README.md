@@ -1,4 +1,4 @@
-# ChatVim CLI 🦫
+# ChatVim CLI
 
 _ChatVim CLI way to chat with markdown files on your command line._
 
@@ -95,4 +95,4 @@ chatvim forget "Write a short Markdown note." | chatvim format | chatvim color
 
 MIT
 
-_Developed by Identellica LLC_ 🦫
+_Developed by Identellica LLC_
