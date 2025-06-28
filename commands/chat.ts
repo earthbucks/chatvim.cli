@@ -6,7 +6,7 @@ import { readStdin } from "../util/stdin.js";
 
 export async function handleChat(
   input: string | undefined,
-  opts: { file: string } = { file: "codey.md" },
+  opts: { file: string } = { file: "chat.md" },
 ) {
   let promptText = input;
   if (!promptText && !process.stdin.isTTY) {
