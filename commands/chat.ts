@@ -4,7 +4,7 @@ import { withTimeout } from "../util/async.js";
 import { parseChatLogFromText } from "../util/parse.js";
 import { readStdin } from "../util/stdin.js";
 
-export async function handleChat(
+export async function handleLog(
   input: string | undefined,
   opts: { file: string } = { file: "chat.md" },
 ) {

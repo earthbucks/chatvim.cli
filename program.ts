@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { handleBuffer } from "./commands/buffer.js";
-import { handleChat } from "./commands/chat.js";
+import { handleLog } from "./commands/chat.js";
 import { handleColor } from "./commands/color.js";
 import { handleForget } from "./commands/forget.js";
 import { handleFormat } from "./commands/format.js";
@@ -27,7 +27,7 @@ program
   .action(handleForget);
 
 program
-  .command("chat")
+  .command("log")
   .description("Chat with a markdown file to maintain context")
   .argument(
     "[input]",
@@ -38,7 +38,7 @@ program
     "Markdown file to use as context (optional)",
     "chat.md",
   )
-  .action(handleChat);
+  .action(handleLog);
 
 program
   .command("models")
