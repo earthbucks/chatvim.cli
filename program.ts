@@ -2,7 +2,7 @@ import { Command } from "commander";
 import { handleBuffer } from "./commands/buffer.js";
 import { handleLog } from "./commands/chat.js";
 import { handleColor } from "./commands/color.js";
-import { handleForget as handleComplete } from "./commands/forget.js";
+import { handleForget as handleComplete } from "./commands/complete.js";
 import { handleFormat } from "./commands/format.js";
 import { handleModels } from "./commands/models.js";
 import { handleProviders } from "./commands/providers.js";
@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name("chatvim")
   .description("Chatvim: LLM-powered coding assistant")
-  .version("0.3.0");
+  .version("0.4.0");
 
 program
   .command("complete")

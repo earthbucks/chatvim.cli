@@ -12,6 +12,9 @@
     "type": "git",
     "url": "https://github.com/chatvim/chatvim.nvim.git"
   },
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "build": "rimraf dist && tsc && chmod +x dist/chatvim.js",
     "prepublishOnly": "pnpm run build",
