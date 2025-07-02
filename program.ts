@@ -2,7 +2,7 @@ import { Command } from "commander";
 import { handleBuffer } from "./commands/buffer.js";
 import { handleLog } from "./commands/chat.js";
 import { handleColor } from "./commands/color.js";
-import { handleForget } from "./commands/forget.js";
+import { handleForget as handleComplete } from "./commands/forget.js";
 import { handleFormat } from "./commands/format.js";
 import { handleModels } from "./commands/models.js";
 import { handleProviders } from "./commands/providers.js";
@@ -15,7 +15,7 @@ program
   .version("0.3.0");
 
 program
-  .command("forget")
+  .command("complete")
   .argument(
     "[input]",
     "Prompt text to send to the LLM (optional; can be piped)",
@@ -24,7 +24,7 @@ program
   .option("--model <model>", "Model to use", "grok-3")
   .option("--chunk", "Put each chunk in a JSON object on a new line", false)
   .option("--add-delimiters", "Add delimiters to the response", false)
-  .action(handleForget);
+  .action(handleComplete);
 
 program
   .command("log")
