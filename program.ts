@@ -11,8 +11,8 @@ const program = new Command();
 
 program
   .name("chatvim")
-  .description("ChatVim: LLM-powered coding assistant")
-  .version("0.2.0");
+  .description("Chatvim: LLM-powered coding assistant")
+  .version("0.3.0");
 
 program
   .command("forget")

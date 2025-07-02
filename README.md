@@ -1,10 +1,10 @@
-# ChatVim CLI
+# Chatvim CLI
 
-_ChatVim CLI way to chat with markdown files on your command line._
+_Chatvim CLI way to chat with markdown files on your command line._
 
 ## Basic Idea
 
-The basic idea of ChatVim CLI is to put LLMs on the command line, like this:
+The basic idea of Chatvim CLI is to put LLMs on the command line, like this:
 
 ```sh
 chatvim forget "What is 1 + 1?"
@@ -28,7 +28,7 @@ npm install -g chatvim
 
 This provides one global command:
 
-- `chatvim` &nbsp;—&nbsp; Main entry point for ChatVim CLI
+- `chatvim` &nbsp;—&nbsp; Main entry point for Chatvim CLI
 
 ## Usage
 
@@ -72,10 +72,10 @@ chatvim forget "What is 2 plus 2?"
 chatvim forget "Generate a JavaScript function that reverses an array"
 
 # Use a markdown file as context and log the response
-chatvim chat --file chat.md "Generate a Python function to calculate factorial"
+chatvim log --file chat.md "Generate a Python function to calculate factorial"
 
 # If you don't specify the file name, it will default to `chat.md`
-chatvim chat "Generate a Python function to calculate Fibonacci sequence"
+chatvim log "Generate a Python function to calculate Fibonacci sequence"
 # ^ This will create or overwrite `chat.md`
 
 # Pipe input as prompt
