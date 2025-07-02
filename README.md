@@ -7,7 +7,7 @@ _Chatvim CLI way to chat with markdown files on your command line._
 The basic idea of Chatvim CLI is to put LLMs on the command line, like this:
 
 ```sh
-chatvim forget "What is 1 + 1?"
+chatvim complete "What is 1 + 1?"
 ```
 
 Output
@@ -54,7 +54,7 @@ chatvim --help
 
 A brief overview of available commands:
 
-- **forget** &nbsp;—&nbsp; Send a prompt to the LLM and get a response
+- **complete** &nbsp;—&nbsp; Send a prompt to the LLM and get a response
 - **save** &nbsp;—&nbsp; Save a prompt and response to a markdown file
 - **buffer** &nbsp;—&nbsp; Buffer input for later processing
 - **format** &nbsp;—&nbsp; Format markdown output for better readability
@@ -66,10 +66,10 @@ A brief overview of available commands:
 
 ```sh
 # Simple math prompt
-chatvim forget "What is 2 plus 2?"
+chatvim complete "What is 2 plus 2?"
 
 # Code generation
-chatvim forget "Generate a JavaScript function that reverses an array"
+chatvim complete "Generate a JavaScript function that reverses an array"
 
 # Use a markdown file as context and log the response
 chatvim log --file chat.md "Generate a Python function to calculate factorial"
@@ -79,16 +79,16 @@ chatvim log "Generate a Python function to calculate Fibonacci sequence"
 # ^ This will create or overwrite `chat.md`
 
 # Pipe input as prompt
-cat my-instructions.txt | chatvim forget
+cat my-instructions.txt | chatvim complete
 
 # Generate, buffer, format, and colorize Markdown output
-chatvim forget "Show me a Python bubble sort function with comments in Markdown." | chatvim buffer | chatvim format | chatvim color
+chatvim complete "Show me a Python bubble sort function with comments in Markdown." | chatvim buffer | chatvim format | chatvim color
 
 # Buffer and format direct Markdown input
 echo "# Quick Note\n\nThis is a short note with a code block:\n\n\`\`\`bash\necho 'Hello, World!'\n\`\`\`" | chatvim buffer | chatvim format
 
 # Format and colorize without buffering
-chatvim forget "Write a short Markdown note." | chatvim format | chatvim color
+chatvim complete "Write a short Markdown note." | chatvim format | chatvim color
 ```
 
 ## License
