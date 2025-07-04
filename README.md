@@ -95,4 +95,4 @@ chatvim complete "Write a short Markdown note." | chatvim format | chatvim color
 
 MIT
 
-_Developed by Identellica LLC_
+Copyright (C) 2025 Ryan X. Charles
