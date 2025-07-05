@@ -21,7 +21,6 @@ program
     "Prompt text to send to the LLM (optional; can be piped)",
   )
   .description("Send a prompt to the LLM (argument or stdin)")
-  .option("--model <model>", "Model to use", "grok-3")
   .option("--chunk", "Put each chunk in a JSON object on a new line", false)
   .option("--add-delimiters", "Add delimiters to the response", false)
   .action(handleComplete);

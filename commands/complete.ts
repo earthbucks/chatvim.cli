@@ -7,7 +7,6 @@ import { readStdin } from "../util/stdin.js";
 export async function handleComplete(
   input: string | undefined,
   opts: {
-    model?: string;
     chunk?: boolean;
     addDelimiters?: boolean;
   },
@@ -29,7 +28,7 @@ export async function handleComplete(
   try {
     const stream = await generateChatCompletionStream({
       messages,
-      model: opts.model || settings.model,
+      model: settings.model,
     });
 
     if (opts.addDelimiters) {
