@@ -18,7 +18,7 @@ type Config = {
 export async function parseGlobalChatConfig(): Promise<{
   messages: { role: ChatRole; content: string }[];
   settings: { [key: string]: unknown };
-  hasGlobalConfig: boolean;
+  globalConfigFile?: string;
 }> {
   // Check if XDG_CONFIG_HOME environment variable is set
   const xdgConfigHome = process.env.XDG_CONFIG_HOME;
@@ -26,8 +26,8 @@ export async function parseGlobalChatConfig(): Promise<{
     console.warn(
       "XDG_CONFIG_HOME environment variable not set. No global configuration will be loaded.",
     );
-    return { messages: [], settings: {}, hasGlobalConfig: false };
-  }
+    return { messages: [], settings: {} }
+  } 
 
   // Construct the path to chatvim/chat.md
   const configDir = join(xdgConfigHome, "chatvim");
@@ -39,7 +39,7 @@ export async function parseGlobalChatConfig(): Promise<{
     // Parse the content using the existing parseChatLogFromText function
     const parsedConfig = parseChatLogFromText(fileContent);
     console.log(`Loaded global configuration from ${configFile}`);
-    return { ...parsedConfig, hasGlobalConfig: true };
+    return { ...parsedConfig, globalConfigFile: configFile };
   } catch (err: unknown) {
     // Handle different error scenarios
     // @ts-ignore
@@ -54,6 +54,6 @@ export async function parseGlobalChatConfig(): Promise<{
         err?.message,
       );
     }
-    return { messages: [], settings: {}, hasGlobalConfig: false };
+    return { messages: [], settings: {}, globalConfigFile: configFile  };
   }
 }
