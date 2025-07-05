@@ -138,12 +138,14 @@ function parseChatLog(
 export function parseChatLogFromText(
   text: string,
   defaultSettings: Record<string, unknown>,
+  defaultChatLog: { role: ChatRole; content: string }[],
 ): {
   settings: Settings;
   messages: { role: ChatRole; content: string }[];
 } {
   const settings = getSettingsFromFrontMatter(text, defaultSettings);
   const chatLogText = stripFrontMatter(text);
-  const messages = parseChatLog(chatLogText, settings);
+  let messages = parseChatLog(chatLogText, settings);
+  messages = [...defaultChatLog, ...messages];
   return { settings, messages };
 }

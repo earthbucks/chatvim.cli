@@ -76,7 +76,7 @@ export async function parseGlobalChatConfig(): Promise<{
   // Parse the file contents
   let config: Config;
   try {
-    config = parseChatLogFromText(fileContents, defaultSettings);
+    config = parseChatLogFromText(fileContents, defaultSettings, []);
   } catch (err: unknown) {
     console.error(
       `Error parsing global configuration file at ${configFile}:`,
@@ -86,11 +86,8 @@ export async function parseGlobalChatConfig(): Promise<{
     return { messages: [], settings: defaultSettings };
   }
 
-  // Merge with default settings
-  const settings = deepmerge(defaultSettings, config.settings || {});
-
   // confirm settings against schema
-  const parsedSettings = SettingsSchema.safeParse(settings);
+  const parsedSettings = SettingsSchema.safeParse(config.settings);
   if (!parsedSettings.success) {
     console.error(
       `Invalid settings in global configuration file at ${configFile}:`,

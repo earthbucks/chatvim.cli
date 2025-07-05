@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import { generateChatCompletionStream } from "../util/ai.js";
 import { withTimeout } from "../util/async.js";
+import { parseGlobalChatConfig } from "../util/config.js";
 import { parseChatLogFromText } from "../util/parse.js";
 import { readStdin } from "../util/stdin.js";
 
@@ -31,7 +32,12 @@ export async function handleLog(
     }
   }
 
-  const { messages, settings } = parseChatLogFromText(fileContent);
+  const globalChatConfig = await parseGlobalChatConfig();
+  const { messages, settings } = parseChatLogFromText(
+    promptText,
+    globalChatConfig.settings,
+    globalChatConfig.messages,
+  );
   messages.push({
     role: "user",
     content: promptText,

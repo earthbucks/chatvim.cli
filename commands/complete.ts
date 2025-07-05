@@ -24,6 +24,7 @@ export async function handleComplete(
   const { messages, settings } = parseChatLogFromText(
     promptText,
     globalChatConfig.settings,
+    globalChatConfig.messages,
   );
   try {
     const stream = await generateChatCompletionStream({
