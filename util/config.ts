@@ -1,4 +1,3 @@
-import deepmerge from "deepmerge";
 import { promises as fs } from "fs";
 import { join } from "path";
 import type { ChatRole, Settings } from "./parse.js";
