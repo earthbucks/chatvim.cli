@@ -1,4 +1,5 @@
 import * as TOML from "@iarna/toml";
+import deepmerge from "deepmerge";
 import YAML from "yaml";
 import { z } from "zod/v4";
 
@@ -19,14 +20,19 @@ const FRONT_MATTER_REGEX = {
   yaml: /^---\n([\s\S]*?)\n---/,
 };
 
-function parseFrontMatter(text: string): Record<string, unknown> {
+function parseFrontMatter(
+  text: string,
+  defaultSettings?: Record<string, unknown>,
+): Record<string, unknown> {
   for (const [type, regex] of Object.entries(FRONT_MATTER_REGEX)) {
     const match = text.match(regex);
     if (match) {
       try {
-        return type === "toml"
-          ? TOML.parse(match[1] || "")
-          : YAML.parse(match[1] || "");
+        const res =
+          type === "toml"
+            ? TOML.parse(match[1] || "")
+            : YAML.parse(match[1] || "");
+        return deepmerge(defaultSettings || {}, res);
       } catch (e) {
         console.error(`Invalid ${type.toUpperCase()} front matter:`, e);
       }

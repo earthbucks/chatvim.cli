@@ -1,13 +1,21 @@
 import deepmerge from "deepmerge";
 import { promises as fs } from "fs";
 import { join } from "path";
-import { parseChatLogFromText } from "./parse.js";
-
-export type ChatRole = "user" | "assistant" | "system";
+import type { ChatRole, Settings } from "./parse.js";
+import { parseChatLogFromText, SettingsSchema } from "./parse.js";
 
 type Config = {
   messages: { role: ChatRole; content: string }[];
   settings: { [key: string]: unknown };
+};
+
+const defaultSettings: Settings = {
+  delimiterPrefix: "\n\n",
+  delimiterSuffix: "\n\n",
+  userDelimiter: "# === USER ===",
+  assistantDelimiter: "# === ASSISTANT ===",
+  systemDelimiter: "# === SYSTEM ===",
+  model: "grok-3",
 };
 
 /**
@@ -17,16 +25,18 @@ type Config = {
  */
 export async function parseGlobalChatConfig(): Promise<{
   messages: { role: ChatRole; content: string }[];
-  settings: { [key: string]: unknown };
+  settings: Settings;
   globalConfigFile?: string;
 }> {
   // Check if XDG_CONFIG_HOME environment variable is set
-  const xdgConfigHome = process.env.XDG_CONFIG_HOME;
+  const xdgConfigHome =
+    process.env.XDG_CONFIG_HOME ||
+    (process.env.HOME && join(process.env.HOME, ".config"));
   if (!xdgConfigHome) {
     console.warn(
       "XDG_CONFIG_HOME environment variable not set. No global configuration will be loaded.",
     );
-    return { messages: [], settings: {} };
+    return { messages: [], settings: defaultSettings };
   }
 
   // Construct the path to chatvim/chat.md
@@ -53,14 +63,14 @@ export async function parseGlobalChatConfig(): Promise<{
       console.warn(
         `Global configuration file not found at ${configFile}. No global configuration will be loaded.`,
       );
-      return { messages: [], settings: {} };
+      return { messages: [], settings: defaultSettings };
     }
     console.error(
       `Error reading global configuration file at ${configFile}:`,
       // @ts-ignore
       err?.message,
     );
-    return { messages: [], settings: {} };
+    return { messages: [], settings: defaultSettings };
   }
 
   // Parse the file contents
@@ -73,23 +83,25 @@ export async function parseGlobalChatConfig(): Promise<{
       // @ts-ignore
       err?.message,
     );
-    return { messages: [], settings: {} };
+    return { messages: [], settings: defaultSettings };
   }
 
   // Merge with default settings
-  const defaultSettings = {
-    delimiterPrefix: "\n\n",
-    delimiterSuffix: "\n\n",
-    userDelimiter: "# === USER ===",
-    assistantDelimiter: "# === ASSISTANT ===",
-    systemDelimiter: "# === SYSTEM ===",
-    model: "grok-3",
-  };
-
   const settings = deepmerge(defaultSettings, config.settings || {});
+
+  // confirm settings against schema
+  const parsedSettings = SettingsSchema.safeParse(settings);
+  if (!parsedSettings.success) {
+    console.error(
+      `Invalid settings in global configuration file at ${configFile}:`,
+      parsedSettings.error,
+    );
+    return { messages: [], settings: defaultSettings };
+  }
+
   return {
     messages: config.messages || [],
-    settings,
+    settings: parsedSettings.data,
     globalConfigFile: configFile,
   };
 }
