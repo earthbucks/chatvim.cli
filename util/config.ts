@@ -19,7 +19,7 @@ const defaultSettings: Settings = {
 };
 
 /**
- * Loads and parses the global chat configuration from XDG_CONFIG_HOME/chatvim/chat.md.
+ * Loads and parses the global chat configuration from XDG_CONFIG_HOME/chatvim/config.md.
  * Returns the parsed configuration if the file exists and can be read/parsed;
  * otherwise, returns an empty configuration.
  */
@@ -39,9 +39,9 @@ export async function parseGlobalChatConfig(): Promise<{
     return { messages: [], settings: defaultSettings };
   }
 
-  // Construct the path to chatvim/chat.md
+  // Construct the path to chatvim/config.md
   const configDir = join(xdgConfigHome, "chatvim");
-  const configFile = join(configDir, "chat.md");
+  const configFile = join(configDir, "config.md");
 
   // if the directory doesn't exist, create it
   try {
