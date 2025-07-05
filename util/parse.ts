@@ -46,7 +46,6 @@ function getSettingsFromFrontMatter(
   defaultSettings?: Record<string, unknown>,
 ): Settings {
   const frontMatter = parseFrontMatter(text, defaultSettings);
-  console.log("frontMatter: ", frontMatter.model);
   return SettingsSchema.parse(frontMatter);
 }
 
@@ -145,7 +144,6 @@ export function parseChatLogFromText(
   messages: { role: ChatRole; content: string }[];
 } {
   const settings = getSettingsFromFrontMatter(text, defaultSettings);
-  console.log('parseChatLog', settings.model);
   const chatLogText = stripFrontMatter(text);
   let messages = parseChatLog(chatLogText, settings);
   messages = [...defaultChatLog, ...messages];
