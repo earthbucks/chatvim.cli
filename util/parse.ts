@@ -11,8 +11,8 @@ export const SettingsSchema = z.looseObject({
   model: z.string().default("grok-3"),
 });
 
-type ChatRole = "user" | "assistant" | "system";
-type Settings = z.infer<typeof SettingsSchema>;
+export type ChatRole = "user" | "assistant" | "system";
+export type Settings = z.infer<typeof SettingsSchema>;
 
 const FRONT_MATTER_REGEX = {
   toml: /^\+\+\+\n([\s\S]*?)\n\+\+\+/,

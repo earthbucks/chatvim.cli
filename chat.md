@@ -1930,3 +1930,31 @@ or specific fields), need help with writing the initial config file, or want to
 explore other libraries or formats (e.g., JSON instead of TOML), let me know! 😊
 
 # === USER ===
+
+ok, i need your help with a new function. the new function is going to load the
+global configuration settings from a file called `~/.config/chatvim/chat.md`.
+
+the directory is not necessarily `~/.config/`. instead, the `XDG_CONFIG_HOME`
+path is used, if it exists, this env var must exist in order to have global
+settings. otherwise, the global settings are blank.
+
+we then assume the `chatvim` directory inside the `XDG_CONFIG_HOME` directory is
+where the user's chatvim config is set. the config file is called `chat.md`.
+
+i already have a function to parse the text out of chat.md.
+
+what i need to do is have a function that identifies this file using the
+`XDG_CONFIG_HOME` environment variable, reads the file, and returns the parsed
+configuration.
+
+we will also use deepmerge to merge in the settings with the settings found in
+other places. but we don't need that quite yet.
+
+here is the start of the file containing the new function.
+
+can you please add the function caled `parseGlobalChatConfig`?
+
+```typescript
+import { parseChatLogFromText } from "./parse.js";
+import deepmerge from "deepmerge";
+```
