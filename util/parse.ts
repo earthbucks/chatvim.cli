@@ -41,8 +41,11 @@ function parseFrontMatter(
   return {};
 }
 
-function getSettingsFromFrontMatter(text: string): Settings {
-  const frontMatter = parseFrontMatter(text);
+function getSettingsFromFrontMatter(
+  text: string,
+  defaultSettings?: Record<string, unknown>,
+): Settings {
+  const frontMatter = parseFrontMatter(text, defaultSettings);
   return SettingsSchema.parse(frontMatter);
 }
 
@@ -132,11 +135,14 @@ function parseChatLog(
   return chatLog;
 }
 
-export function parseChatLogFromText(text: string): {
+export function parseChatLogFromText(
+  text: string,
+  defaultSettings: Record<string, unknown>,
+): {
   settings: Settings;
   messages: { role: ChatRole; content: string }[];
 } {
-  const settings = getSettingsFromFrontMatter(text);
+  const settings = getSettingsFromFrontMatter(text, defaultSettings);
   const chatLogText = stripFrontMatter(text);
   const messages = parseChatLog(chatLogText, settings);
   return { settings, messages };

@@ -1,5 +1,6 @@
 import { generateChatCompletionStream } from "../util/ai.js";
 import { withTimeout } from "../util/async.js";
+import { parseGlobalChatConfig } from "../util/config.js";
 import { parseChatLogFromText } from "../util/parse.js";
 import { readStdin } from "../util/stdin.js";
 
@@ -19,7 +20,11 @@ export async function handleComplete(
     console.error("No prompt supplied (argument or stdin required).");
     process.exit(1);
   }
-  const { messages, settings } = parseChatLogFromText(promptText);
+  const globalChatConfig = await parseGlobalChatConfig();
+  const { messages, settings } = parseChatLogFromText(
+    promptText,
+    globalChatConfig.settings,
+  );
   try {
     const stream = await generateChatCompletionStream({
       messages,
