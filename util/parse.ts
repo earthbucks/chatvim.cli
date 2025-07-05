@@ -1,8 +1,8 @@
 import * as TOML from "@iarna/toml";
 import YAML from "yaml";
-import { z } from "zod";
+import { z } from "zod/v4";
 
-export const SettingsSchema = z.object({
+export const SettingsSchema = z.looseObject({
   delimiterPrefix: z.string().default("\n\n"),
   delimiterSuffix: z.string().default("\n\n"),
   userDelimiter: z.string().default("# === USER ==="),
