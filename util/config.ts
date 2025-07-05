@@ -76,7 +76,7 @@ export async function parseGlobalChatConfig(): Promise<{
   // Parse the file contents
   let config: Config;
   try {
-    config = parseChatLogFromText(fileContents);
+    config = parseChatLogFromText(fileContents, defaultSettings);
   } catch (err: unknown) {
     console.error(
       `Error parsing global configuration file at ${configFile}:`,
