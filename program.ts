@@ -6,6 +6,7 @@ import { handleComplete } from "./commands/complete.js";
 import { handleFormat } from "./commands/format.js";
 import { handleModels } from "./commands/models.js";
 import { handleProviders } from "./commands/providers.js";
+import { handleRepl } from "./commands/repl.js";
 
 const program = new Command();
 
@@ -42,7 +43,7 @@ program
 program
   .command("repl")
   .description("Start a REPL for interactive chat with the LLM")
-  .action(async () => {});
+  .action(handleRepl);
 
 program
   .command("models")
