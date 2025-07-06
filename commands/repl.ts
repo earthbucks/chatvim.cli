@@ -78,17 +78,37 @@ async function handlePromptInput(
   }
 }
 
+// async function handleReplCommandInput(
+//   cmd: string,
+//   callback: (err: Error | null, result?: unknown) => void,
+// ) {
+//   const cmdText = cmd.trim();
+//   if (!cmdText) {
+//     return callback(null);
+//   }
+//   if (cmdText === ".help") {
+//     console.log(
+//       `
+// Available commands:
+// - .help: Show this help message
+// - .exit: Exit the REPL
+// `.trim(),
+//     );
+//   }
+//   callback(null);
+// }
+
 export async function handleRepl(input: string, opts: { file: string }) {
   repl.start({
     prompt: userCliPrompt,
     eval: async (cmd, _ctx, _filename, cb) => {
       const callback = cb as (err: Error | null, result?: unknown) => void;
 
-      const promptText = cmd.trim();
-      if (!promptText) {
+      const inputText = cmd.trim();
+      if (!inputText) {
         return callback(null);
       }
-      return handlePromptInput(promptText, callback);
+      return handlePromptInput(inputText, callback);
     },
   });
 }
