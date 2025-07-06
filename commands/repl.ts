@@ -10,10 +10,11 @@ export async function handleRepl(input: string, opts: { file: string }) {
     globalChatConfig.messages;
   const settings = globalChatConfig.settings;
 
-  const prompt = "\x1b[32mchatvim>\x1b[0m ";
+  const userDelimiter = "\x1b[32muser>\x1b[0m ";
+  const assistantDelimiter = "\x1b[32massistant>\x1b[0m ";
 
   repl.start({
-    prompt,
+    prompt: userDelimiter,
     eval: async (cmd, _ctx, _filename, cb) => {
       const callback = cb as (err: Error | null, result?: unknown) => void;
 
@@ -28,6 +29,7 @@ export async function handleRepl(input: string, opts: { file: string }) {
           model: settings.model,
         });
         let reply = "";
+        process.stdout.write(`${assistantDelimiter}`);
         for await (const c of stream) {
           process.stdout.write(c);
           reply += c;
