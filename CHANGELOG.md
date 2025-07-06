@@ -1,5 +1,8 @@
 # Chatvim CLI Changelog
 
+- Custom spinner. Remove Ora dependency.
+- Repl has color and formatting.
+
 ## v0.3.3
 
 - Add `chatvim repl` and make it the default command.
