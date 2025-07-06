@@ -78,7 +78,7 @@ async function handlePromptInput(
   }
 }
 
-export async function handleRepl(input: string, opts: { file: string }) {
+export async function commandRepl(input: string, opts: { file: string }) {
   repl.start({
     prompt: userCliPrompt,
     eval: async (cmd, _ctx, _filename, cb) => {

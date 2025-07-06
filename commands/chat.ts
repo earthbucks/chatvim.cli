@@ -5,7 +5,7 @@ import { parseGlobalChatConfig } from "../util/config.js";
 import { parseChatLogFromText } from "../util/parse.js";
 import { readStdin } from "../util/stdin.js";
 
-export async function handleLog(
+export async function commandLog(
   input: string | undefined,
   opts: { file: string } = { file: "chat.md" },
 ) {

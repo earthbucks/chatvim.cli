@@ -1,12 +1,12 @@
 import { Command } from "commander";
-import { handleBuffer } from "./commands/buffer.js";
-import { handleLog } from "./commands/chat.js";
-import { handleColor } from "./commands/color.js";
-import { handleComplete } from "./commands/complete.js";
-import { handleFormat } from "./commands/format.js";
-import { handleModels } from "./commands/models.js";
-import { handleProviders } from "./commands/providers.js";
-import { handleRepl } from "./commands/repl.js";
+import { commandBuffer } from "./commands/buffer.js";
+import { commandLog } from "./commands/chat.js";
+import { commandColor } from "./commands/color.js";
+import { commandComplete } from "./commands/complete.js";
+import { commandFormat } from "./commands/format.js";
+import { commandModels } from "./commands/models.js";
+import { commandProviders } from "./commands/providers.js";
+import { commandRepl } from "./commands/repl.js";
 
 const program = new Command();
 
@@ -14,7 +14,7 @@ program
   .name("chatvim")
   .description("Chatvim: LLM-powered coding assistant")
   .version("0.3.3")
-  .action(handleRepl); // Default action is to start REPL
+  .action(commandRepl); // Default action is to start REPL
 
 program
   .command("complete")
@@ -25,7 +25,7 @@ program
   .description("Send a prompt to the LLM (argument or stdin)")
   .option("--chunk", "Put each chunk in a JSON object on a new line", false)
   .option("--add-delimiters", "Add delimiters to the response", false)
-  .action(handleComplete);
+  .action(commandComplete);
 
 program
   .command("log")
@@ -39,22 +39,22 @@ program
     "Markdown file to use as context (optional)",
     "chat.md",
   )
-  .action(handleLog);
+  .action(commandLog);
 
 program
   .command("repl")
   .description("Start a REPL for interactive chat with the LLM")
-  .action(handleRepl);
+  .action(commandRepl);
 
 program
   .command("models")
   .description("List available models")
-  .action(handleModels);
+  .action(commandModels);
 
 program
   .command("providers")
   .description("List available providers")
-  .action(handleProviders);
+  .action(commandProviders);
 
 program
   .command("buffer")
@@ -62,7 +62,7 @@ program
   .description(
     "Buffer input and show a spinner while waiting (argument or stdin)",
   )
-  .action(handleBuffer);
+  .action(commandBuffer);
 
 program
   .command("format")
@@ -70,7 +70,7 @@ program
   .description(
     "Format Markdown input with proper line wrapping (argument or stdin)",
   )
-  .action(handleFormat);
+  .action(commandFormat);
 
 program
   .command("color")
@@ -78,6 +78,6 @@ program
   .description(
     "Apply syntax highlighting to Markdown input (argument or stdin)",
   )
-  .action(handleColor);
+  .action(commandColor);
 
 export { program };

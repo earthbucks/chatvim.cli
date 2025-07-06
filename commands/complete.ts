@@ -4,7 +4,7 @@ import { parseGlobalChatConfig } from "../util/config.js";
 import { parseChatLogFromText } from "../util/parse.js";
 import { readStdin } from "../util/stdin.js";
 
-export async function handleComplete(
+export async function commandComplete(
   input: string | undefined,
   opts: {
     chunk?: boolean;
