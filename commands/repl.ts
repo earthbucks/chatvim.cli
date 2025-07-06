@@ -1,8 +1,9 @@
+import { marked } from "marked";
+import TerminalRenderer from "marked-terminal";
+import ora, { Ora } from "ora";
 import repl from "repl";
 import { generateChatCompletionStream } from "../util/ai.js";
 import { parseGlobalChatConfig } from "../util/config.js";
-// import { parseChatLogFromText } from "../util/parse.js";
-import ora, { Ora } from "ora";
 
 const BUFFER_OUTPUT = true;
 const COLOR_OUTPUT = true;
@@ -36,7 +37,7 @@ export async function handleRepl(input: string, opts: { file: string }) {
         process.stdout.write(`${assistantCliPrompt}`);
         let spinner: Ora | undefined;
         if (BUFFER_OUTPUT) {
-          spinner = ora("Buffering...").start();
+          // spinner = ora("Buffering...").start();
         }
         for await (const c of stream) {
           if (!BUFFER_OUTPUT) {
@@ -46,9 +47,16 @@ export async function handleRepl(input: string, opts: { file: string }) {
         }
         if (BUFFER_OUTPUT) {
           if (spinner) {
-            spinner.stop();
+            // spinner.stop();
           }
+        }
+        if (!COLOR_OUTPUT) {
           process.stdout.write(reply);
+        } else {
+          // @ts-ignore – marked-terminal lacks full typings
+          marked.setOptions({ renderer: new TerminalRenderer() });
+          const renderedOutput = await marked(reply);
+          process.stdout.write(`${renderedOutput}`);
         }
         process.stdout.write("\n");
         messages.push({ role: "assistant", content: reply });

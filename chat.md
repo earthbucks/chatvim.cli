@@ -2399,7 +2399,7 @@ let callback = cb as any;
 # === ASSISTANT ===
 
 Use a small wrapper that explicitly reproduces the “error-first” callback
-signature you need, then forward the call to the original `cb`.  
+signature you need, then forward the call to the original `cb`.\
 That gives TypeScript a concrete function type and removes the need for
 `as any`.
 
@@ -2434,27 +2434,33 @@ function wrapEvalCallback(cb: (...args: any[]) => void): REPLEvalCallback {
 const callback = wrapEvalCallback(cb);
 ```
 
-`callback` now has the precise type `(err: Error | null, result?: unknown) =>
-void`, so you can pass it to the REPL without the unsafe `as any` cast.
+`callback` now has the precise type
+`(err: Error | null, result?: unknown) =>
+void`, so you can pass it to the REPL
+without the unsafe `as any` cast.
 
 # === USER ===
 
-the repl callback has the very odd property that it seems to JSON-encode the reply when it prints it out. for instance, if i send an empty string, it will actually print ''. is there any way to disable this? i don't want the repl library to print out anything - because i'm handling that with process.stdout.write.
+the repl callback has the very odd property that it seems to JSON-encode the
+reply when it prints it out. for instance, if i send an empty string, it will
+actually print ''. is there any way to disable this? i don't want the repl
+library to print out anything - because i'm handling that with
+process.stdout.write.
 
 # === ASSISTANT ===
 
 Yes—there are two simple ways to stop Node’s REPL from printing anything after
 your custom `eval` has run.
 
-1. Call the callback without the “result” argument  
+1. Call the callback without the “result” argument
 2. (or additionally) give the REPL a `writer` function that always returns an
    empty string
 
-Either approach prevents Node from feeding the value through
-`util.inspect (…)` and echoing it.
+Either approach prevents Node from feeding the value through `util.inspect (…)`
+and echoing it.
 
-──────────────────────────────────────────────────────────────────────── Option 1
-— just omit the second argument
+──────────────────────────────────────────────────────────────────────── Option
+1 — just omit the second argument
 ────────────────────────────────────────────────────────────────────────
 
 ```ts
@@ -2471,8 +2477,8 @@ If you pass `cb(null, '')` the REPL will print `''` (because it inspects the
 empty string). Calling `cb(null)` (or `cb(null, undefined)`) leaves it with no
 value to display.
 
-──────────────────────────────────────────────────────────────────────── Option 2
-— provide a dummy writer
+──────────────────────────────────────────────────────────────────────── Option
+2 — provide a dummy writer
 ────────────────────────────────────────────────────────────────────────
 
 ```ts
@@ -2494,5 +2500,76 @@ You can combine both techniques, but usually **omitting the second argument to
 can i give this prompt some color?
 
 ```typescript
-    prompt: "chatvim> ",
+prompt: "chatvim> ",
+```
+
+# === ASSISTANT ===
+
+Yes.\
+`readline` (and the REPL built on top of it) happily accepts ANSI escape
+sequences inside the `prompt` string, so you can colour or style it just like
+any other terminal output.
+
+The quickest way is to embed raw escape codes:
+
+```ts
+// green “chatvim> ”, then reset
+const prompt = '\x1b[32mchatvim>\x1b[0m ';
+```
+
+If you’d rather not sprinkle escape codes throughout your code, use a small
+helper library such as `chalk`, `kleur`, or `ansi-colors`:
+
+```bash
+npm i chalk            # or pnpm / yarn
+```
+
+```ts
+import chalk from 'chalk';
+
+const prompt = chalk.cyan.bold('chatvim') + chalk.white('> ');
+```
+
+Then just hand that coloured string to `readline` or `repl`:
+
+```ts
+import readline from 'readline';
+
+const rl = readline.createInterface({
+  input  : process.stdin,
+  output : process.stdout,
+  prompt // coloured string
+});
+
+rl.prompt();
+```
+
+or, with the Node REPL:
+
+```ts
+import repl from 'node:repl';
+
+repl.start({
+  prompt,          // coloured string
+  eval : myEvalFn,
+});
+```
+
+readline/REPL automatically strip the ANSI codes when calculating the visual
+length of the prompt (as long as `terminal: true`, which is the default when
+`output` is a TTY), so cursor positioning and editing behave normally.
+
+# === USER ===
+
+i'm adding color to my markdown output. however, there is a problem. using the
+packages `marked` and `marked-terminal`, when outputting the text, for some
+reason, the program is exited at the end. i am not intentionally exiting the
+program, and i only seems to exit when outputting colored text from these tools.
+i assume somehow they are adding in some exist excape sequence into the text. is
+that correct? any idea how i can disable that?
+
+```typescript
+marked.setOptions({ renderer: new TerminalRenderer() });
+const renderedOutput = await marked(reply);
+process.stdout.write(renderedOutput);
 ```
