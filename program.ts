@@ -40,6 +40,11 @@ program
   .action(handleLog);
 
 program
+  .command("repl")
+  .description("Start a REPL for interactive chat with the LLM")
+  .action(async () => {});
+
+program
   .command("models")
   .description("List available models")
   .action(handleModels);

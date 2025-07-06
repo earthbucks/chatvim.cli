@@ -2174,3 +2174,209 @@ creation, or anything else related to this function, just let me know! 😊
 i've decided to rename the config file to `config.md` because i don't want
 people thinking they should chat with it. they should not chat with the global
 config file.
+
+---
+
+now, i have want to add another feature. it would be extremely convenient if
+chatvim had a repl. the way the repl should work is that i type in
+`chatvim repl` and it should start a repl session. the repl session will be very
+basic at the start:
+
+1. load the global configuration file.
+2. allow the user to input a prompt.
+3. add the prompt to the chat log.
+4. print the result of the prompt to the console.
+5. allow the user to continue entering prompts until they exit the REPL.
+6. you can pause the repl by pressing `Ctrl+Z`, and enter it again in zsh by
+   typing `fg` to resume it. In nushell, you can enter it again using
+   `job unfreeze`.
+
+is there some repl library for node.js i can use to help me create this?
+
+# === ASSISTANT ===
+
+Yes ‑ you don’t need a third-party dependency at all:  
+Node already ships with everything you need to build an interactive loop.
+
+Two built-in modules are useful:
+
+1. `repl` – gives you a REPL whose “evaluator” function you can override.  
+2. `readline` – a lower-level line editor (history, arrows, ^Z, ^C, etc.).  
+
+Either one works; for a “type prompt → get answer” experience the plain
+`readline` loop is usually simpler, so the code below uses it.  
+(If you prefer the real Node REPL prompt with tab completion and
+multi-line-input you can swap `readline` for `repl.start()` and supply your own
+`eval` – see note at the end.)
+
+────────────────────────────────────────────────────────────────────────
+Example implementation (`repl.ts`)
+────────────────────────────────────────────────────────────────────────
+```ts
+import { promises as fs } from 'fs';
+import readline from 'readline';
+import process from 'process';
+import { generateChatCompletionStream } from './util/ai.js';
+import { withTimeout } from './util/async.js';
+import { parseChatLogFromText } from './util/parse.js';
+import { parseGlobalChatConfig } from './config.js';   //  ← the function you wrote
+
+/**
+ * Start Chatvim interactive REPL.
+ *  1. loads ~/.config/chatvim/config.md (if XDG_CONFIG_HOME is set)
+ *  2. keeps the chat log in memory
+ *  3. streams model responses to the console
+ */
+export async function startChatvimRepl() {
+  // -----------------------------------------------------------------
+  // 1. Load global configuration file
+  // -----------------------------------------------------------------
+  const globalCfg   = await parseGlobalChatConfig();          // {messages, settings}
+  const chatLog     = [...globalCfg.messages];                // mutable copy
+  const settings    = {                                       // fall-back defaults
+    model            : 'gpt-4',
+    delimiterPrefix  : '\n\n',
+    assistantDelimiter: 'Assistant:',
+    userDelimiter     : 'User:',
+    delimiterSuffix   : '\n\n',
+    ...globalCfg.settings,
+  };
+
+  // -----------------------------------------------------------------
+  // 2. Create readline interface
+  // -----------------------------------------------------------------
+  const rl = readline.createInterface({
+    input : process.stdin,
+    output: process.stdout,
+    prompt: 'chatvim> ',
+  });
+
+  // Helpful on resume after ^Z (SIGCONT)
+  process.on('SIGCONT', () => {
+    rl.prompt();
+  });
+
+  // Clean exit on Ctrl-C
+  rl.on('SIGINT', () => {
+    rl.write('\n');
+    rl.close();
+  });
+
+  rl.on('close', () => {
+    console.log('Bye ✨');
+    process.exit(0);
+  });
+
+  // -----------------------------------------------------------------
+  // 3. Main prompt loop
+  // -----------------------------------------------------------------
+  rl.prompt();
+  rl.on('line', async (line: string) => {
+    const promptText = line.trim();
+    if (!promptText) { rl.prompt(); return; }
+
+    // 3a. Push user message into in-memory log
+    chatLog.push({ role: 'user', content: promptText });
+
+    try {
+      // 3b. Call the model / stream back
+      const stream = await generateChatCompletionStream({
+        messages: chatLog,
+        model   : settings.model,
+      });
+
+      // 3c. Prepare assistant delimiter (OPTIONAL: show divider)
+      process.stdout.write(
+        `${settings.delimiterPrefix}${settings.assistantDelimiter}${settings.delimiterSuffix}`
+      );
+
+      let assistantReply = '';
+      for await (const chunk of withTimeout(stream, 15_000)) {
+        if (chunk) {
+          process.stdout.write(chunk);
+          assistantReply += chunk;
+        }
+      }
+      process.stdout.write(`\n`);
+
+      // 3d. Push assistant reply to the chat log
+      chatLog.push({ role: 'assistant', content: assistantReply });
+
+    } catch (err) {
+      console.error('Error:', err);
+    }
+
+    rl.prompt();
+  });
+}
+```
+
+────────────────────────────────────────────────────────────────────────
+Hooking it up in your CLI (Commander)
+────────────────────────────────────────────────────────────────────────
+```ts
+import { Command } from 'commander';
+import { startChatvimRepl } from './repl.js';
+
+const program = new Command();
+
+program
+  .command('repl')
+  .description('Start interactive Chatvim session')
+  .action(async () => {
+    await startChatvimRepl();
+  });
+
+program.parse();
+```
+
+────────────────────────────────────────────────────────────────────────
+What about Ctrl-Z / `fg` / `job unfreeze`?
+────────────────────────────────────────────────────────────────────────
+`readline` does not block Node’s default job-control signals:
+
+• `Ctrl-Z` (`SIGTSTP`) stops the whole process;  
+• `fg` (zsh) or `job unfreeze` (Nushell) resumes it, delivering `SIGCONT`.  
+
+We add a `SIGCONT` handler (`process.on('SIGCONT', …)`) that simply re-issues
+`rl.prompt()` so the prompt reappears when the job is brought back to the
+foreground.
+
+────────────────────────────────────────────────────────────────────────
+Library alternatives
+────────────────────────────────────────────────────────────────────────
+If you want more features (command history on disk, tab-completion, coloured
+output, plugins, etc.) look at:
+
+• `vorpal` – CLI framework with an out-of-the-box REPL feel.  
+• `enquirer` / `prompts` – nice async prompts (not a persistent REPL).  
+• Node’s own `repl` module – gives Node-style REPL with custom evaluator; replace
+  the `readline` code above with:
+
+```ts
+import repl from 'repl';
+
+repl.start({
+  prompt: 'chatvim> ',
+  eval: async (cmd, _ctx, _filename, cb) => {
+    const promptText = cmd.trim();
+    if (!promptText) return cb(null);
+    try {
+      const stream = await generateChatCompletionStream({ … });
+      let reply = '';
+      for await (const c of stream) { process.stdout.write(c); reply += c; }
+      chatLog.push({ role: 'assistant', content: reply });
+      cb(null);
+    } catch (e) { cb(e); }
+  },
+});
+```
+
+But for your initial “enter prompt → print reply” needs, the simple `readline`
+loop above is usually clearer.
+
+That’s all you need to ship a first REPL for Chatvim. Happy coding!
+
+# === USER ===
+
+
