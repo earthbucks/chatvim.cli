@@ -120,6 +120,8 @@ TOML configuration.
 
 ### Example Configuration #2
 
+Global chat history example with TOML configuration:
+
 ```markdown
 +++
 model = "grok-3"
@@ -137,6 +139,8 @@ can I assist you today?
 ```
 
 ### Example Configuration #3
+
+YAML configuration example:
 
 ```markdown
 ---
