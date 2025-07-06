@@ -2491,4 +2491,8 @@ You can combine both techniques, but usually **omitting the second argument to
 
 # === USER ===
 
+can i give this prompt some color?
 
+```typescript
+    prompt: "chatvim> ",
+```

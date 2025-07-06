@@ -10,8 +10,10 @@ export async function handleRepl(input: string, opts: { file: string }) {
     globalChatConfig.messages;
   const settings = globalChatConfig.settings;
 
+  const prompt = "\x1b[32mchatvim>\x1b[0m ";
+
   repl.start({
-    prompt: "chatvim> ",
+    prompt,
     eval: async (cmd, _ctx, _filename, cb) => {
       const callback = cb as (err: Error | null, result?: unknown) => void;
 
