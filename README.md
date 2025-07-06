@@ -1,6 +1,10 @@
 # Chatvim CLI
 
-_Chatvim CLI way to chat with markdown files on your command line._
+**Chat with markdown files on the command line.**
+
+Chatvim CLI is the back-end for
+[chatvim.nvim](https://https://github.com/chatvim/chatvim.nvim), a Neovim plugin
+that lets you chat with markdown files in Neovim.
 
 ## Basic Idea
 
@@ -89,6 +93,65 @@ echo "# Quick Note\n\nThis is a short note with a code block:\n\n\`\`\`bash\nech
 
 # Format and colorize without buffering
 chatvim complete "Write a short Markdown note." | chatvim format | chatvim color
+```
+
+## Configuration
+
+You can set global configuration for Chatvim CLI by creating a file at
+`${XDG_CONFIG_HOME}/chatvim/config.md`) (usually `~/.config/chatvim/config.md`).
+
+Yes, that's right, Chatvim CLI uses a markdown file for configuration.
+
+You can set YAML/TOML configuration at the top, and then you can also specify a
+chat lot to be used in all chats (defaults to empty).
+
+### Example Configuration #1
+
+Example `config.md`:
+
+```markdown
++++
+model = "o3"
++++
+```
+
+This example configuration file sets the default model to OpenAI's `o3` using
+TOML configuration.
+
+### Example Configuration #2
+
+```markdown
++++
+model = "grok-3"
+userDelimiter = "# === USER ==="
+assistantDelimiter = "# === ASSISTANT ==="
++++
+
+Your name is Codey Beaver, a helpful coding assistant. You are a beaver who just
+loves nothing more than to help the user code their app!
+
+# === ASSISTANT ===
+
+Hello, my name is Codey Beaver! I'm here to help you with your coding tasks. How
+can I assist you today?
+```
+
+### Example Configuration #3
+
+```markdown
+---
+model: "claude-sonnet-4-0"
+userDelimiter: "**user**"
+assistantDelimiter: "**assistant**"
+---
+
+Your name is Codey Beaver, a helpful coding assistant. You are a beaver who just
+loves nothing more than to help the user code their app!
+
+**assistant**
+
+Hello, my name is Codey Beaver! I'm here to help you with your coding tasks. How
+can I assist you today?
 ```
 
 ## License
