@@ -59,7 +59,7 @@ chatvim --help
 A brief overview of available commands:
 
 - **complete** &nbsp;—&nbsp; Send a prompt to the LLM and get a response
-- **save** &nbsp;—&nbsp; Save a prompt and response to a markdown file
+- **log** &nbsp;—&nbsp; Save a prompt and response to a markdown file
 - **buffer** &nbsp;—&nbsp; Buffer input for later processing
 - **format** &nbsp;—&nbsp; Format markdown output for better readability
 - **color** &nbsp;—&nbsp; Colorize markdown output for better visibility
