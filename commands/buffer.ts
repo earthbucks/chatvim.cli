@@ -6,7 +6,7 @@ export async function handleBuffer(input?: string) {
   const isPiped = !process.stdin.isTTY && !input;
   let spinner: Ora | undefined;
   if (isPiped) {
-    spinner = ora("Buffering input...").start();
+    spinner = ora("Buffering output...").start();
     bufferText = await readStdin();
     if (spinner) {
       spinner.stop();
