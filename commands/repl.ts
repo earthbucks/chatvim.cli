@@ -34,10 +34,9 @@ export async function handleRepl(input: string, opts: { file: string }) {
           model: settings.model,
         });
         let reply = "";
-        process.stdout.write(`${assistantCliPrompt}`);
         let spinner: Ora | undefined;
         if (BUFFER_OUTPUT) {
-          // spinner = ora("Buffering...").start();
+          spinner = ora("Buffering...").start();
         }
         for await (const c of stream) {
           if (!BUFFER_OUTPUT) {
@@ -47,9 +46,10 @@ export async function handleRepl(input: string, opts: { file: string }) {
         }
         if (BUFFER_OUTPUT) {
           if (spinner) {
-            // spinner.stop();
+            spinner.stop();
           }
         }
+        process.stdout.write(`${assistantCliPrompt}\n`);
         if (!COLOR_OUTPUT) {
           process.stdout.write(reply);
         } else {
