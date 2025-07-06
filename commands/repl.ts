@@ -14,7 +14,8 @@ export async function handleRepl(input: string, opts: { file: string }) {
     eval: async (cmd, _ctx, _filename, cb) => {
       const promptText = cmd.trim();
       if (!promptText) {
-        return cb(null, undefined);
+        // @ts-ignore
+        return cb();
       }
       messages.push({ role: "user", content: promptText });
       try {
@@ -28,16 +29,18 @@ export async function handleRepl(input: string, opts: { file: string }) {
           reply += c;
         }
         messages.push({ role: "assistant", content: reply });
-        cb(null, undefined);
+        // @ts-ignore
+        cb();
       } catch (e) {
         if (e instanceof Error) {
-          cb(e, undefined);
+          // @ts-ignore
+          cb(e);
         } else {
+          // @ts-ignore
           cb(
             new Error(
               "An unknown error occurred while processing the command.",
             ),
-            undefined,
           );
         }
       }
