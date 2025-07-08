@@ -1,5 +1,8 @@
 # Chatvim CLI Changelog
 
+## v0.3.4
+
+- Increase timeout to 120 seconds
 - Custom spinner. Remove Ora dependency.
 - Repl has color and formatting.
 

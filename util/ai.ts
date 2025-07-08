@@ -245,7 +245,7 @@ export async function generateChatCompletionXAI({
         max_tokens: undefined,
         stream: true,
       }),
-      30_000, // 30 seconds timeout
+      120_000,
     );
 
     // Transform XAI stream into an async iterable of text chunks
@@ -290,7 +290,7 @@ export async function generateChatCompletionOpenAI({
         max_tokens: undefined,
         stream: true,
       }),
-      30_000, // 30 seconds timeout
+      120_000,
     );
 
     // Transform OpenAI stream into an async iterable of text chunks
