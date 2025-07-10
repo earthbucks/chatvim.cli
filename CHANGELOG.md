@@ -1,5 +1,9 @@
 # Chatvim CLI Changelog
 
+## v0.3.5
+
+- Add support for `grok-4-0709`
+
 ## v0.3.4
 
 - Increase timeout to 120 seconds

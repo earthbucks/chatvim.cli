@@ -40,7 +40,12 @@ export const ModelsSchema = z
     "o3-mini",
 
     // x.ai
+    "grok-3-beta",
     "grok-3",
+    "grok-3-mini",
+    "grok-3-fast",
+    "grok-3-mini-fast",
+    "grok-4-0709",
   ])
   .default("grok-3");
 
@@ -59,13 +64,18 @@ export const models: z.infer<typeof ModelsSchema>[] = [
   "gpt-4o-mini",
   "gpt-4o-mini-search-preview",
   "gpt-4o-search-preview",
-
-  // x.ai models
   "o1",
   "o1-mini",
   "o3",
   "o3-mini",
+
+  // x.ai models
+  "grok-3-beta",
   "grok-3",
+  "grok-3-mini",
+  "grok-3-fast",
+  "grok-3-mini-fast",
+  "grok-4-0709",
 ];
 
 export const providers: z.infer<typeof ProviderSchema>[] = [
@@ -99,7 +109,12 @@ const ModelToProviderMap: Record<string, z.infer<typeof ProviderSchema>> = {
   "o3-mini": "openai",
 
   // xai models
+  "grok-3-beta": "xai",
   "grok-3": "xai",
+  "grok-3-mini": "xai",
+  "grok-3-fast": "xai",
+  "grok-3-mini-fast": "xai",
+  "grok-4-0709": "xai",
 };
 
 function getProvider(model: string): z.infer<typeof ProviderSchema> {
