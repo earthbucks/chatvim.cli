@@ -13,8 +13,7 @@ const program = new Command();
 program
   .name("chatvim")
   .description("Chatvim: LLM-powered coding assistant")
-  .version("0.3.5")
-  .action(commandRepl); // Default action is to start REPL
+  .version("0.3.5");
 
 program
   .command("complete")

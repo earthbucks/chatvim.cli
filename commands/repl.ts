@@ -10,8 +10,14 @@ const messages: { role: "user" | "assistant" | "system"; content: string }[] =
   globalChatConfig.messages;
 const settings = globalChatConfig.settings;
 
-const userCliPrompt = "\x1b[32muser>\x1b[0m ";
-const assistantCliPrompt = "\x1b[32massistant>\x1b[0m ";
+// green
+// const userCliPrompt = "\x1b[32muser>\x1b[0m ";
+// const assistantCliPrompt = "\x1b[32massistant>\x1b[0m ";
+
+// blue
+const userCliPrompt = "\x1b[34muser>\x1b[0m ";
+// cyan
+const assistantCliPrompt = "\x1b[36massistant>\x1b[0m ";
 
 async function handlePromptInput(
   promptText: string,
