@@ -162,4 +162,4 @@ can I assist you today?
 
 MIT
 
-Copyright (C) 2025 Ryan X. Charles
+Copyright (C) 2025 EarthBucks Inc.
