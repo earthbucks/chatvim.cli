@@ -1,3 +1,4 @@
+import { spawnSync } from "child_process"; // Built-in Node.js module
 import { Command } from "commander";
 import { commandBuffer } from "./commands/buffer.js";
 import { commandLog } from "./commands/chat.js";
@@ -7,7 +8,6 @@ import { commandFormat } from "./commands/format.js";
 import { commandModels } from "./commands/models.js";
 import { commandProviders } from "./commands/providers.js";
 import { commandRepl } from "./commands/repl.js";
-import { spawnSync } from "child_process"; // Built-in Node.js module
 
 const program = new Command();
 
