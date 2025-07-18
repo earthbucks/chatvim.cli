@@ -1,5 +1,12 @@
 # Chatvim CLI Changelog
 
+## v0.3.6
+
+- Repl is no longer the main command.
+- The main command now opens Neovim in a Chatvim context with the command
+  `nvim -c ':ChatvimNew'`. Of course, you must have Neovim installed with the
+  Chatvim plugin installed for this to work.
+
 ## v0.3.5
 
 - Add support for `grok-4-0709`
