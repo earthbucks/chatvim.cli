@@ -6,6 +6,7 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "bin": {
+    "cvim": "./bin/chatvim",
     "chatvim": "./bin/chatvim"
   },
   "repository": {
