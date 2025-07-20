@@ -25,7 +25,7 @@
     "fix": "pnpm run typecheck && pnpm run lint && pnpm run format"
   },
   "author": "Ryan X. Charles <ryan@ryanxcharles.com> (https://ryanxcharles.com)",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
     "@types/node": "^24.0.3",
