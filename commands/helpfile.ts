@@ -10,7 +10,7 @@ export async function commandHelpfile() {
   try {
     const helpContent = await fs.promises.readFile(helpFilePath, "utf-8");
     // Print the content to the console
-    console.log(helpContent, "\n");
+    console.log(helpContent);
   } catch (error) {
     console.error("Error reading help file:", error);
   }
