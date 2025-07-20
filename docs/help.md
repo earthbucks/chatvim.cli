@@ -4,8 +4,7 @@ What is Chatvim?
 
 # === ASSISTANT ===
 
-Chatvim is a set of tools for chatting with Markdown files, primarily inside
-Neovim.
+Chatvim is a set of tools for chatting with Markdown files.
 
 ## Parts of Chatvim
 
@@ -13,9 +12,9 @@ Chatvim has several parts:
 
 - **Chatvim CLI**: A command-line interface for chatting with Markdown files.
 - **chatvim.nvim**: A Neovim plugin that allows you to chat with Markdown files
-  directly in Neovim.
-- **ChatvimLazy**: A Neovim distribution that includes helpful plugins for using
-  Chatvim.
+  inside Neovim.
+- **ChatvimLazy**: A Neovim distribution that includes helpful plugins for
+  chatting with Markdown files. It includes chatvim.nvim by default.
 
 ## Chatvim CLI
 
