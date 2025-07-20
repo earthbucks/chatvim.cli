@@ -8,6 +8,7 @@ import { commandMain } from "./commands/main.js";
 import { commandModels } from "./commands/models.js";
 import { commandProviders } from "./commands/providers.js";
 import { commandRepl } from "./commands/repl.js";
+import { commandHelpfile } from "./commands/helpfile.js";
 
 const program = new Command();
 
@@ -16,6 +17,22 @@ program
   .description("Chatvim: LLM-powered coding assistant")
   .version("0.3.6")
   .action(commandMain);
+
+program
+  .command("buffer")
+  .argument("[input]", "Input text to buffer (optional; can be piped)")
+  .description(
+    "Buffer input and show a spinner while waiting (argument or stdin)",
+  )
+  .action(commandBuffer);
+
+program
+  .command("color")
+  .argument("[input]", "Markdown input to colorize (optional; can be piped)")
+  .description(
+    "Apply syntax highlighting to Markdown input (argument or stdin)",
+  )
+  .action(commandColor);
 
 program
   .command("complete")
@@ -27,6 +44,19 @@ program
   .option("--chunk", "Put each chunk in a JSON object on a new line", false)
   .option("--add-delimiters", "Add delimiters to the response", false)
   .action(commandComplete);
+
+program
+  .command("format")
+  .argument("[input]", "Markdown input to format (optional; can be piped)")
+  .description(
+    "Format Markdown input with proper line wrapping (argument or stdin)",
+  )
+  .action(commandFormat);
+
+program
+  .command("helpfile")
+  .description("Show helpfile")
+  .action(commandHelpfile);
 
 program
   .command("log")
@@ -43,11 +73,6 @@ program
   .action(commandLog);
 
 program
-  .command("repl")
-  .description("Start a REPL for interactive chat with the LLM")
-  .action(commandRepl);
-
-program
   .command("models")
   .description("List available models")
   .action(commandModels);
@@ -58,27 +83,8 @@ program
   .action(commandProviders);
 
 program
-  .command("buffer")
-  .argument("[input]", "Input text to buffer (optional; can be piped)")
-  .description(
-    "Buffer input and show a spinner while waiting (argument or stdin)",
-  )
-  .action(commandBuffer);
-
-program
-  .command("format")
-  .argument("[input]", "Markdown input to format (optional; can be piped)")
-  .description(
-    "Format Markdown input with proper line wrapping (argument or stdin)",
-  )
-  .action(commandFormat);
-
-program
-  .command("color")
-  .argument("[input]", "Markdown input to colorize (optional; can be piped)")
-  .description(
-    "Apply syntax highlighting to Markdown input (argument or stdin)",
-  )
-  .action(commandColor);
+  .command("repl")
+  .description("Start a REPL for interactive chat with the LLM")
+  .action(commandRepl);
 
 export { program };

@@ -33,3 +33,5 @@ or YAML front-matter at the top of the Markdown file.
 ChatvimLazy is a fork of LazyVim, a Neovim distribution, which is modified to
 include the Chatvim Neovim plugin by default. It also has other settings and
 plugins that work well with Chatvim.
+
+# === USER ===
