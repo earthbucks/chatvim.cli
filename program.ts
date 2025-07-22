@@ -4,7 +4,6 @@ import { commandLog } from "./commands/chat.js";
 import { commandColor } from "./commands/color.js";
 import { commandComplete } from "./commands/complete.js";
 import { commandFormat } from "./commands/format.js";
-import { commandHelpfile } from "./commands/helpfile.js";
 import { commandMain } from "./commands/main.js";
 import { commandModels } from "./commands/models.js";
 import { commandProviders } from "./commands/providers.js";
@@ -52,11 +51,6 @@ program
     "Format Markdown input with proper line wrapping (argument or stdin)",
   )
   .action(commandFormat);
-
-program
-  .command("helpfile")
-  .description("Show helpfile")
-  .action(commandHelpfile);
 
 program
   .command("log")
