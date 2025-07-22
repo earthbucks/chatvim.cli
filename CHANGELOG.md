@@ -1,9 +1,5 @@
 # Chatvim CLI Changelog
 
-## v0.3.7
-
-- Add `helpfile` command to return contents of help.md.
-
 ## v0.3.6
 
 - Repl is no longer the main command.
