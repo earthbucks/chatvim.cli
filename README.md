@@ -158,12 +158,6 @@ Hello, my name is Codey Beaver! I'm here to help you with your coding tasks. How
 can I assist you today?
 ```
 
-## License
+## Copyright
 
 Copyright (C) 2025 EarthBucks Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at
-
-- [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
