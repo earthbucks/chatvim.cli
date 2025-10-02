@@ -18,43 +18,7 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   });
 }
 
-export const ModelsSchema = z
-  .enum([
-    // anthropic
-    "claude-3-5-sonnet-latest",
-    "claude-3-7-sonnet-latest",
-    "claude-opus-4-0",
-    "claude-sonnet-4-0",
-    "claude-sonnet-4-5",
-
-    // openai
-    "gpt-4.1",
-    "gpt-4.1-mini",
-    "gpt-4.1-nano",
-    "gpt-4o",
-    "gpt-4o-mini",
-    "gpt-4o-mini-search-preview",
-    "gpt-4o-search-preview",
-    "gpt-5",
-    "gpt-5-mini",
-    "gpt-5-nano",
-    "o1",
-    "o1-mini",
-    "o3",
-    "o3-mini",
-
-    // x.ai
-    "grok-3",
-    "grok-3-beta",
-    "grok-3-fast",
-    "grok-3-mini",
-    "grok-3-mini-fast",
-    "grok-4-0709",
-    "grok-4-fast",
-  ])
-  .default("grok-3");
-
-export const models: z.infer<typeof ModelsSchema>[] = [
+export const models: string[] = [
   // anthropic models
   "claude-3-5-sonnet-latest",
   "claude-3-7-sonnet-latest",
@@ -87,6 +51,8 @@ export const models: z.infer<typeof ModelsSchema>[] = [
   "grok-4-0709",
   "grok-4-fast",
 ];
+
+export const ModelsSchema = z.enum(models).default("grok-3");
 
 export const providers: z.infer<typeof ProviderSchema>[] = [
   "anthropic",
