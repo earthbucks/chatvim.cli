@@ -25,6 +25,7 @@ export const ModelsSchema = z
     "claude-3-7-sonnet-latest",
     "claude-sonnet-4-0",
     "claude-opus-4-0",
+    "claude-sonnet-4-5",
 
     // openai
     "gpt-4.1",
