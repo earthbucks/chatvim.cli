@@ -21,16 +21,13 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 export const ModelsSchema = z
   .enum([
     // anthropic
-    "claude-sonnet-4-5",
-    "claude-sonnet-4-0",
-    "claude-opus-4-0",
-    "claude-3-7-sonnet-latest",
     "claude-3-5-sonnet-latest",
+    "claude-3-7-sonnet-latest",
+    "claude-opus-4-0",
+    "claude-sonnet-4-0",
+    "claude-sonnet-4-5",
 
     // openai
-    "gpt-5",
-    "gpt-5-mini",
-    "gpt-5-nano",
     "gpt-4.1",
     "gpt-4.1-mini",
     "gpt-4.1-nano",
@@ -38,6 +35,9 @@ export const ModelsSchema = z
     "gpt-4o-mini",
     "gpt-4o-mini-search-preview",
     "gpt-4o-search-preview",
+    "gpt-5",
+    "gpt-5-mini",
+    "gpt-5-nano",
     "o1",
     "o1-mini",
     "o3",
@@ -57,10 +57,14 @@ export const models: z.infer<typeof ModelsSchema>[] = [
   // anthropic models
   "claude-3-5-sonnet-latest",
   "claude-3-7-sonnet-latest",
-  "claude-sonnet-4-0",
   "claude-opus-4-0",
+  "claude-sonnet-4-0",
+  "claude-sonnet-4-5",
 
   // openai models
+  "gpt-5",
+  "gpt-5-mini",
+  "gpt-5-nano",
   "gpt-4.1",
   "gpt-4.1-mini",
   "gpt-4.1-nano",
@@ -96,8 +100,9 @@ const ModelToProviderMap: Record<string, z.infer<typeof ProviderSchema>> = {
   // anthropic models
   "claude-3-5-sonnet-latest": "anthropic",
   "claude-3-7-sonnet-latest": "anthropic",
-  "claude-sonnet-4-0": "anthropic",
   "claude-opus-4-0": "anthropic",
+  "claude-sonnet-4-0": "anthropic",
+  "claude-sonnet-4-5": "anthropic",
 
   // openai models
   "gpt-4.1": "openai",
@@ -107,10 +112,13 @@ const ModelToProviderMap: Record<string, z.infer<typeof ProviderSchema>> = {
   "gpt-4o-mini": "openai",
   "gpt-4o-mini-search-preview": "openai",
   "gpt-4o-search-preview": "openai",
-  o1: "openai",
+  "gpt-5": "openai",
+  "gpt-5-mini": "openai",
+  "gpt-5-nano": "openai",
   "o1-mini": "openai",
-  o3: "openai",
   "o3-mini": "openai",
+  o1: "openai",
+  o3: "openai",
 
   // xai models
   "grok-3-beta": "xai",
